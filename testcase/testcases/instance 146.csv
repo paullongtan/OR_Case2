@@ -1,0 +1,5 @@
+,Due Time,Stage-1 Processing Time,Stage-2 Processing Time,Stage-1 Machines,Stage-2 Machines
+0,24.0,8.4,7.1,"1,2,3,4,","1,2,3,4,"
+1,11.9,0.6,8.9,"1,2,3,4,","1,2,3,4,"
+2,9.2,6.0,0.0,"1,2,3,4,",
+3,6.4,5.0,0.0,"1,2,3,4,",
