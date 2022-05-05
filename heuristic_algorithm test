@@ -1,12 +1,13 @@
 import pandas as pd 
 import numpy as np
+from heapdict import heapdict
+from heapq import heappush, heappop, heapify
+
 def heuristic_algorithm(fullpath):
-    from heapdict import heapdict
+    # job structure 
+    
     # see https://github.com/DanielStutzbach/heapdict
     # or directly !pip install HeapDict
-    instances = []
-    instances.append(pd.read_csv(fullpath))
-    # job structure 
     class Job:
         '''structure for 1 job '''
         def __init__(self, row):
@@ -23,7 +24,7 @@ def heuristic_algorithm(fullpath):
             self.assign_mach = [None for _ in range(2)]
             self.start_time = [-1 for _ in range(2)]
             self.end_time = [-1 for _ in range(2)]
-    
+
     class Jobs:
         '''structure for multiple jobs' management'''
         def __init__(self, n):
@@ -78,7 +79,7 @@ def heuristic_algorithm(fullpath):
               stage 2: {self.assign_mach[1]}\n\
                        {self.stage_pt[1]}, {self.stage_mach[1]}'
         __str__ = __repr__
-        
+
     class Machines:
         def __init__(self, df):
             '''pass the stage1, stage2 machine lists'''
@@ -105,7 +106,10 @@ def heuristic_algorithm(fullpath):
             self.schedule[mach].append(f'idle {idle_time:.2f}') 
             self.span[mach].append(idle_time)
             self.fintime[mach] += idle_time
-            
+
+    instances = []
+    instances.append(pd.read_csv(fullpath))
+
     df = instances[0]
     M = Machines(df)
     J = Jobs(len(df))
@@ -113,7 +117,6 @@ def heuristic_algorithm(fullpath):
     # print(J.residual_times)
     # print(J.get_LST())
 
-    from heapq import heappush, heappop, heapify
     def make_Q(J):
         GAP = 0.1
 
@@ -132,9 +135,9 @@ def heuristic_algorithm(fullpath):
             # (lst_ratio, job_index, job_op)
             Job_keys.append((-lst_ratios[0], job_index, 0))
             Job_keys.append((-lst_ratios[1], job_index, 1))
-        Q = Job_keys[:]
-        heapify(Q) 
-        return Q
+        Q_0 = Job_keys[:]
+        heapify(Q_0) 
+        return Q_0
 
     def heuristic(J, M): 
         # best_makepsan = sum(job_processing_time) for all jobs / |M|
@@ -209,10 +212,7 @@ def heuristic_algorithm(fullpath):
 
     Results = []
     data = instances[0]
-    M = Machines(data)
-    J = Jobs(len(data))
-    J.add_jobs(data)
-    heuristic(J = J, M = M)
+    heuristic(J = J,M = M)
     Tardy_jobs = list(np.where(J.completion_times > J.due_dates)[0])
     Tardy_jobs = [x+1 for x in Tardy_jobs]
     Makespan = max(M.fintime)
@@ -232,4 +232,4 @@ def heuristic_algorithm(fullpath):
         assert len(machine) == len(completion_time) == n
         return machine, completion_time
     result = make_results(Results[0]['J'])
-    print(result)
+    return(result)
