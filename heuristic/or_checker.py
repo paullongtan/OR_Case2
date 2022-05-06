@@ -91,10 +91,9 @@ def checker(ans, instance):
     tardy = list(np.where(op2_ends > dues)[0])
     # 6. OBJ: compute makespan
     # print(sch)
-    
-    
-    
     m_ends = [m_sche[-1][-1] for m_sche in sch if len(m_sche) > 0]
     makespan = max(m_ends)
+    print('REVISED!!!!')
+    tardy = [x+1 for x in tardy]
     
     return tardy, makespan, sch
