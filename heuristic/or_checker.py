@@ -37,13 +37,17 @@ def checker(ans, instance):
     op2_pt = instance['Stage-2 Processing Time'].to_numpy()
     op_pts = np.column_stack((op1_pt, op2_pt))
     op_ends = np.column_stack((op1_ends, op2_ends))
-
+    
 
     mfor1 = instance['Stage-1 Machines'].to_numpy()
     mfor2 = instance['Stage-2 Machines'].to_numpy()
     AvailMachs = np.column_stack((mfor1, mfor2))
 
     # print(op_ends)
+    print('op1 ends:', op1_ends.shape)
+    print('op2 processing time:', op2_pt.shape)
+    
+    
     x = op1_ends + op2_pt
     # print('[Zero-index!]')
     try:
@@ -93,7 +97,6 @@ def checker(ans, instance):
     # print(sch)
     m_ends = [m_sche[-1][-1] for m_sche in sch if len(m_sche) > 0]
     makespan = max(m_ends)
-    print('REVISED!!!!')
     tardy = [x+1 for x in tardy]
     
     return tardy, makespan, sch
