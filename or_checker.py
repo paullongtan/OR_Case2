@@ -90,7 +90,11 @@ def checker(ans, instance):
     dues = instance['Due Time'].to_numpy()
     tardy = list(np.where(op2_ends > dues)[0])
     # 6. OBJ: compute makespan
-    m_ends = [m_sche[-1][-1] for m_sche in sch]
+    # print(sch)
+    
+    
+    
+    m_ends = [m_sche[-1][-1] for m_sche in sch if len(m_sche) > 0]
     makespan = max(m_ends)
     
     return tardy, makespan, sch
