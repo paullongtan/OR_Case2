@@ -1,11 +1,21 @@
 #!/usr/bin/env python
 # coding: utf-8
+
+# In[59]:
+
+
 def heuristic_algorithm(fullpath):
     import os
     import pandas as pd
     import numpy as np
     from heapq import heappush, heappop, heapify
+    from heapdict import heapdict
     # job structure
+
+    # see https://github.com/DanielStutzbach/heapdict
+    # or directly !pip install HeapDict
+    # job structure
+
     GAP = 1e-7
     class Job:
         '''structure for 1 job '''
@@ -349,3 +359,5 @@ def heuristic_algorithm(fullpath):
     Makespan = max(M.fintime)
     Answers = list(make_result(J))
     return Answers
+
+
